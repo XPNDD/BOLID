@@ -6,7 +6,7 @@ pip install -r requirements.txt
 ### Установить нужный веб-драйвер (geckodriver для FireFox)
 # 2. Запуск тестов
 ### Вариант №1:
-Открыть файл test.py и запустить его с помощью кнопки ![img.png](img.png)
+Открыть файл test.py и запустить его с помощью кнопки ![Image alt](https://github.com/XPNDD/BOLID/blob/master/md/img.png)
 ### Вариант №2:
 В терминале проекта ввести команду:
 ```
