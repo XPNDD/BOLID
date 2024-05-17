@@ -21,8 +21,11 @@ def generate_trash() -> list:
 
 
 # Вспомогательная функция для генерации случайных текстовых данных из заданного алфавита и границ возможной длины
-def create_item(alphabet: str, min_length, max_length) -> str:
-    item = ''.join(random.choice(alphabet) for _ in range(random.randint(min_length, max_length)))
+def create_item(alphabet_list, min_length, max_length) -> str:
+    item = ''
+    length = random.randint(min_length, max_length)
+    while len(item) < length:
+        item += (random.choice(alphabet_list[random.randint(0, len(alphabet_list)-1)]))
     return item
 
 
@@ -40,12 +43,12 @@ def generate_data(usernames, passwords) -> list:
 # Генерация корректных данных для логина
 def generate_correct_login() -> list:
     storage = []
-    data_min_len = 1
+    data_min_len = 8
     data_max_len = 63
     for _ in range(4):
-        item_1 = create_item(string.ascii_letters, data_min_len, data_max_len)
-        item_2 = int(create_item(string.digits, data_min_len, data_max_len))
-        item_3 = create_item(string.ascii_letters + string.digits, data_min_len, data_max_len)
+        item_1 = create_item([string.ascii_letters], data_min_len, data_max_len)
+        item_2 = int(create_item([string.digits], data_min_len, data_max_len))
+        item_3 = create_item([string.ascii_letters, string.digits], data_min_len, data_max_len)
         temp_list = [item_1, item_2, item_3]
         storage.extend(temp_list)
     return storage
@@ -54,15 +57,15 @@ def generate_correct_login() -> list:
 # Генерация корректных данных для пароля
 def generate_correct_password() -> list:
     storage = []
-    data_min_len = 1
+    data_min_len = 8
     data_max_len = 63
     for _ in range(4):
-        item_1 = create_item(string.ascii_letters, data_min_len, data_max_len)
-        item_2 = int(create_item(string.digits, data_min_len, data_max_len))
-        item_3 = create_item(string.punctuation, data_min_len, data_max_len)
-        item_4 = create_item(string.ascii_letters + string.digits, data_min_len, data_max_len)
-        item_5 = create_item(string.ascii_letters + string.punctuation, data_min_len, data_max_len)
-        item_6 = create_item(string.ascii_letters + string.digits + string.punctuation, data_min_len, data_max_len)
+        item_1 = create_item([string.ascii_letters], data_min_len, data_max_len)
+        item_2 = int(create_item([string.digits], data_min_len, data_max_len))
+        item_3 = create_item([string.punctuation], data_min_len, data_max_len)
+        item_4 = create_item([string.ascii_letters, string.digits], data_min_len, data_max_len)
+        item_5 = create_item([string.ascii_letters, string.punctuation], data_min_len, data_max_len)
+        item_6 = create_item([string.ascii_letters, string.digits, string.punctuation], data_min_len, data_max_len)
         temp_list = [item_1, item_2, item_3, item_4, item_5, item_6]
         storage.extend(temp_list)
     return storage
@@ -74,19 +77,19 @@ def generate_incorrect_login() -> list:
     data_min_len = 1
     data_max_len = 64
     for _ in range(4):
-        item_1 = create_item(cyrillic_letters, data_min_len, data_max_len)
-        item_2 = create_item(cyrillic_letters + string.ascii_letters, data_min_len, data_max_len)
-        item_3 = create_item(cyrillic_letters + string.digits, data_min_len, data_max_len)
-        item_4 = create_item(cyrillic_letters + string.punctuation, data_min_len, data_max_len)
-        item_5 = create_item(cyrillic_letters + string.ascii_letters + string.digits, data_min_len, data_max_len)
-        item_6 = create_item(cyrillic_letters + string.ascii_letters + string.digits + string.whitespace, data_min_len, data_max_len)
-        item_7 = create_item(string.punctuation, data_min_len, data_max_len)
-        item_8 = create_item(string.whitespace, data_min_len, data_max_len)
+        item_1 = create_item([cyrillic_letters], data_min_len, data_max_len)
+        item_2 = create_item([cyrillic_letters, string.ascii_letters], data_min_len, data_max_len)
+        item_3 = create_item([cyrillic_letters, string.digits], data_min_len, data_max_len)
+        item_4 = create_item([cyrillic_letters, string.punctuation], data_min_len, data_max_len)
+        item_5 = create_item([cyrillic_letters, string.ascii_letters, string.digits], data_min_len, data_max_len)
+        item_6 = create_item([cyrillic_letters, string.ascii_letters, string.digits, string.whitespace], data_min_len, data_max_len)
+        item_7 = create_item([string.punctuation], data_min_len, data_max_len)
+        item_8 = create_item([string.whitespace], data_min_len, data_max_len)
         temp_list = [item_1, item_2, item_3, item_4, item_5, item_6, item_7, item_8]
         storage.extend(temp_list)
     # Генерация пароля с корректными символами, но недопустимой длины
-    item_9 = create_item(string.ascii_letters, 64, 100)
-    item_10 = create_item(string.ascii_letters, 0, 0)
+    item_9 = create_item([string.ascii_letters], 64, 100)
+    item_10 = create_item([string.ascii_letters], 0, 0)
     storage.extend([item_9, item_10])
     return storage
 
@@ -97,18 +100,19 @@ def generate_incorrect_password() -> list:
     data_min_len = 1
     data_max_len = 64
     for _ in range(4):
-        item_1 = create_item(cyrillic_letters, data_min_len, data_max_len)
-        item_2 = create_item(cyrillic_letters + string.ascii_letters, data_min_len, data_max_len)
-        item_3 = create_item(cyrillic_letters + string.digits, data_min_len, data_max_len)
-        item_4 = create_item(cyrillic_letters + string.punctuation, data_min_len, data_max_len)
-        item_5 = create_item(cyrillic_letters + string.ascii_letters + string.digits, data_min_len, data_max_len)
-        item_6 = create_item(cyrillic_letters + string.ascii_letters + string.digits + string.whitespace, data_min_len,
+        item_1 = create_item([cyrillic_letters], data_min_len, data_max_len)
+        item_2 = create_item([cyrillic_letters, string.ascii_letters], data_min_len, data_max_len)
+        item_3 = create_item([cyrillic_letters, string.digits], data_min_len, data_max_len)
+        item_4 = create_item([cyrillic_letters, string.punctuation], data_min_len, data_max_len)
+        item_5 = create_item([cyrillic_letters, string.ascii_letters, string.digits], data_min_len, data_max_len)
+        item_6 = create_item([cyrillic_letters, string.ascii_letters, string.digits, string.whitespace], data_min_len,
                              data_max_len)
-        item_7 = create_item(string.whitespace, data_min_len, data_max_len)
+        item_7 = create_item([string.whitespace], data_min_len, data_max_len)
         temp_list = [item_1, item_2, item_3, item_4, item_5, item_6, item_7]
         storage.extend(temp_list)
     # Генерация пароля с корректными символами, но недопустимой длины
-    item_8 = create_item(string.ascii_letters, 64, 100)
-    item_9 = create_item(string.ascii_letters, 0, 0)
+    item_8 = create_item([string.ascii_letters], 64, 100)
+    item_9 = create_item([string.ascii_letters], 0, 0)
     storage.extend([item_8, item_9])
     return storage
+
